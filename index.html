@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#2d68a6">
+    <title>BPS LaunchPad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        /* Header */
+        .header {
+            background-color: #2d68a6;
+            color: white;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        .header .menu-icon {
+            font-size: 22px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .header .title {
+            font-weight: bold;
+        }
+
+        .header .help-icon {
+            margin-left: 8px;
+            background-color: white;
+            color: #2d68a6;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Main Container */
+        .container {
+            padding: 12px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Cards */
+        .card {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        .card-header {
+            background-color: #2d68a6;
+            color: white;
+            padding: 10px 12px;
+            font-weight: bold;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .news-icon {
+            margin-right: 12px;
+            background-color: #5a85b5;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .news-content {
+            padding: 12px;
+        }
+
+        .news-content h2 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+            color: #000;
+        }
+
+        /* Links */
+        a.blue-link {
+            color: #2d68a6;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        /* Student Profile */
+        .student-profile {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            margin-right: 12px;
+            object-fit: cover;
+            /* YOUR DIRECT IMGUR LINK IS HERE */
+            background-image: url('https://i.imgur.com/ekCOQR6.jpg'); 
+            background-size: cover;
+            background-position: center;
+        }
+
+        .student-info h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #2d68a6;
+        }
+
+        .student-info p {
+            margin: 4px 0 0 0;
+            font-size: 11px;
+            color: #555;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background-color: #e8e8e8;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .tab {
+            padding: 8px 15px;
+            font-size: 13px;
+            color: #2d68a6;
+            cursor: pointer;
+            border-right: 1px solid #ccc;
+        }
+
+        .tab.active {
+            background-color: #2d68a6;
+            color: white;
+            font-weight: bold;
+        }
+
+        .quarter-bar {
+            background-color: #2d68a6;
+            color: white;
+            padding: 6px 12px;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .quarter-btns span {
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .quarter-btns .active-q {
+            background-color: white;
+            color: #2d68a6;
+            padding: 2px 5px;
+            border-radius: 2px;
+            font-weight: bold;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            min-width: 500px; 
+        }
+
+        th {
+            background-color: #e8e8e8;
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            color: #333;
+            font-size: 11px;
+        }
+
+        td {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            border-right: 1px solid #eee;
+        }
+
+        .grade-col {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .grade-text { color: #2d68a6; font-weight: bold; }
+
+        /* Assignment Page Specific Styles */
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #fff;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .filter-btn {
+            background-color: #6b9bd2;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .dropdown-box {
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .dropdown-box select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #999;
+            border-radius: 3px;
+            font-size: 13px;
+            color: #333;
+            background-color: white;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            border: 1px solid #2d68a6;
+            background: white;
+            color: #2d68a6;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .red-text { color: #cc0000; font-size: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- MAIN PAGE -->
+    <div id="main-page">
+        <!-- Header -->
+        <div class="header">
+            <div class="menu-icon">☰</div>
+            <div class="title">BPS LaunchPad</div>
+            <div class="help-icon">?</div>
+        </div>
+
+        <div class="container">
+            <!-- News Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="news-icon">09/03<br>12:00 AM</div>
+                    <div>Jackson's OWN News<br><span style="font-size: 10px; font-weight: normal;">0141 - Andrew Jackson Middle School</span></div>
+                </div>
+                <div class="news-content">
+                    <h2>Watch Every Day for News!</h2>
+                    <a href="#" class="blue-link" onclick="return false;">Jackson's OWN TV</a>
+                </div>
+            </div>
+
+            <!-- Grades Card -->
+            <div class="card">
+                <div class="card-header" style="padding: 0;">
+                    <div class="student-profile" style="width: 100%; border-bottom: none;">
+                        <!-- YOUR PICTURE GOES HERE -->
+                        <div class="profile-pic"></div>
+                        <div class="student-info">
+                            <h3>Bailey, Jordan</h3>
+                            <p>0141 - Andrew Jackson Middle School</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active">Grades</div>
+                    <div class="tab" style="color: #333;">News</div>
+                    <div class="tab" style="color: #333;">Planner</div>
+                    <div class="tab" style="color: #333;">Reports</div>
+                </div>
+
+                <div class="quarter-bar">
+                    <div class="quarter-btns">
+                        <span class="active-q">Q1</span>
+                        <span>Q2</span>
+                        <span>Q3</span>
+                        <span>Q4</span>
+                    </div>
+                    <div>08/10 - 10/13</div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 30px;">Pd</th>
+                            <th>Course</th>
+                            <th style="text-align: center; width: 30px;">Ex</th>
+                            <th style="text-align: center; width: 35px;">Unx</th>
+                            <th style="text-align: center; width: 45px;">Tardy</th>
+                            <th style="text-align: center; width: 60px;">Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01</td>
+                            <td>M/J GRADE 8 PRE ALG</td>
+                            <td class="grade-col">0</td>
+                            <td class="grade-col">1</td>
+                            <td class="grade-col">0</td>
+                            <td class="grade-col grade-text">85% B</td>
+                        </tr>
+                        <tr>
+                            <td>02</td>
+                            <td>M/J IND/DUAL SPT GD 7/8</td>
+                            <td class="grade-col">0</td>
+                            <td class="grade-col">1</td>
+                            <td class="grade-col">0</td>
+                            <td class="grade-col grade-text">92% A</td>
+                        </tr>
+                        <tr>
+                            <td>03</td>
+                            <td><a href="#" class="blue-link" onclick="openPage('history-page')">M/J US HIS ADV & C/P</a></td>
+                            <td class="grade-col">0</td>
+                            <td class="grade-col">1</td>
+                            <td class="grade-col">0</td>
+                            <td class="grade-col grade-text">87% B</td>
+                        </tr>
+                        <tr>
+                            <td>04</td>
+                            <td><a href="#" class="blue-link" onclick="openPage('science-page')">M/J COMPRE SCI 3 ADV</a></td>
+                            <td class="grade-col">0</td>
+                            <td class="grade-col">1</td>
+                            <td class="grade-col">0</td>
+                            <td class="grade-col grade-text">91% A</td>
+                        </tr>
+                        <tr>
+                            <td>05</td>
+                            <td>M/J LANG ARTS 3 ADV</td>
+                            <td class="grade-col">0</td>
+                            <td class="grade-col">1</td>
+                            <td class="grade-col">0</td>
+                            <td class="grade-col grade-text">85% B</td>
+                        </tr>
+                        <tr>
+                            <td>06</td>
+                            <td>DIGITAL BUS FDNS</td>
+                            <td class="grade-col">0</td>
+                            <td class="grade-col">1</td>
+                            <td class="grade-col">0</td>
+                            <td class="grade-col grade-text">92% A</td>
+                        </tr>
+                        <tr>
+                            <td>07</td>
+                            <td>OR CAR&TEC OCCS & CP</td>
+                            <td class="grade-col">0</td>
+                            <td class="grade-col">1</td>
+                            <td class="grade-col">0</td>
+                            <td class="grade-col grade-text">85% B</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Help Card -->
+            <div class="card">
+                <div class="card-header">BPS Focus for Parents and Students</div>
+                <div class="news-content">
+                    <a href="#" class="blue-link" onclick="return false;">Help Site for Parents and Students</a><br>
+                    <a href="#" class="blue-link" onclick="return false;">BPS Code of Student Conduct</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCIENCE PAGE -->
+    <div id="science-page" style="display: none;">
+        <div class="header">
+            <div class="menu-icon">☰</div>
+            <div class="title">Grades (Assignments)</div>
+            <div class="help-icon">?</div>
+        </div>
+        
+        <div class="container">
+            <a href="#" class="back-btn" onclick="goBack()">&larr; Back</a>
+            <div class="card" style="margin-top: 0;">
+                <div class="tabs">
+                    <div class="tab active" style="background-color: #f0f0f0; color: #000; border: 1px solid #ccc; border-bottom: none;">Grades</div>
+                </div>
+
+                <div class="dropdown-box">
+                    <select>
+                        <option>Period 4 - KOP4 - Daniel Kopeck</option>
+                    </select>
+                </div>
+
+                <div class="filter-bar">
+                    <span>13 Assignments</span>
+                    <div style="display: flex; gap: 10px;">
+                        <span class="filter-btn">Export 📄 🖨️</span>
+                        <span class="filter-btn">Filter: OFF</span>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 25px;"></th>
+                            <th>Assignment</th>
+                            <th style="text-align: center; width: 80px;">Points</th>
+                            <th style="text-align: center; width: 60px;">Percent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>Make Up Test 2 - Properties of Matter</td>
+                            <td class="grade-col">NG / 0</td>
+                            <td class="grade-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>4 - Classify Matter - Graded Penda</td>
+                            <td class="grade-col">80 / 100</td>
+                            <td class="grade-col">80%</td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>Extra Credit - Classify Matter</td>
+                            <td class="grade-col">27.9 / 0</td>
+                            <td class="grade-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>Week 11 Bell Work</td>
+                            <td class="grade-col">26.67 / 30</td>
+                            <td class="grade-col">89%</td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>Week 10 Bell Work</td>
+                            <td class="grade-col">X / 30</td>
+                            <td class="grade-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>2 - Properties of Matter - Graded Penda</td>
+                            <td class="grade-col">100 / 100</td>
+                            <td class="grade-col">100%</td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>3 - Atoms & Elements - Graded Penda</td>
+                            <td class="grade-col">93 / 100</td>
+                            <td class="grade-col">93%</td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>Test 2 - Properties of Matter & Atoms</td>
+                            <td class="grade-col">280.13 / 300</td>
+                            <td class="grade-col">93%</td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>Study Guide - Test 2</td>
+                            <td class="grade-col">X / 0</td>
+                            <td class="grade-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>Extra Credit - Properties of Matter</td>
+                            <td class="grade-col">NG / 0</td>
+                            <td class="grade-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>Data Nugget 2</td>
+                            <td class="grade-col">91 / 100</td>
+                            <td class="grade-col">91%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- HISTORY PAGE -->
+    <div id="history-page" style="display: none;">
+        <div class="header">
+            <div class="menu-icon">☰</div>
+            <div class="title">Grades (Assignments)</div>
+            <div class="help-icon">?</div>
+        </div>
+        
+        <div class="container">
+            <a href="#" class="back-btn" onclick="goBack()">&larr; Back</a>
+            <div class="card" style="margin-top: 0;">
+                <div class="tabs">
+                    <div class="tab active" style="background-color: #f0f0f0; color: #000; border: 1px solid #ccc; border-bottom: none;">Grades</div>
+                </div>
+
+                <div class="dropdown-box">
+                    <select>
+                        <option>Period 3 - ABR3 - Jeffrey Abrams</option>
+                    </select>
+                </div>
+
+                <div class="filter-bar">
+                    <span>8 Assignments</span>
+                    <div style="display: flex; gap: 10px;">
+                        <span class="filter-btn">Export 📄 🖨️</span>
+                        <span class="filter-btn">Filter: OFF</span>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 25px;"></th>
+                            <th>Assignment</th>
+                            <th style="text-align: center; width: 80px;">Points</th>
+                            <th style="text-align: center; width: 60px;">Percent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>Review for unit 3 test</td>
+                            <td class="grade-col">NG / </td>
+                            <td class="grade-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>10/19-10/23 Bellwork <span class="red-text">Excluded from Grade</span></td>
+                            <td class="grade-col">10 / 25</td>
+                            <td class="grade-col">40%</td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>Informational text Founding Fathers</td>
+                            <td class="grade-col">22 / 25</td>
+                            <td class="grade-col">88%</td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>Trading Card Revolutionary Figures</td>
+                            <td class="grade-col">44 / 50</td>
+                            <td class="grade-col">88%</td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>Unit 3 Test</td>
+                            <td class="grade-col">87 / 100</td>
+                            <td class="grade-col">87%</td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>Policy Line with Essay</td>
+                            <td class="grade-col">22 / 25</td>
+                            <td class="grade-col">88%</td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>Founding Fathers Worksheet</td>
+                            <td class="grade-col">22 / 25</td>
+                            <td class="grade-col">88%</td>
+                        </tr>
+                        <tr>
+                            <td class="grade-col">⛶</td>
+                            <td>10/12-10/16 Bellwork</td>
+                            <td class="grade-col">20 / 25</td>
+                            <td class="grade-col">80%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openPage(pageId) {
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById(pageId).style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        function goBack() {
+            document.getElementById('science-page').style.display = 'none';
+            document.getElementById('history-page').style.display = 'none';
+            document.getElementById('main-page').style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
